@@ -7,10 +7,21 @@ generator client {
 
 datasource db {
   provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
-model Item {
-  id        Int      @id @default(autoincrement())
+model User {
+  userID    Int          @id @default(autoincrement())
   name      String
-  createdAt DateTime @default(now())
+  email     String       @unique
+  results   GameResult[]
+}
+
+model GameResult {
+  resultID    Int    @id @default(autoincrement())
+  userID      Int
+  stoppingStep Int
+  score       Int
+
+  user        User   @relation(fields: [userID], references: [userID])
 }
