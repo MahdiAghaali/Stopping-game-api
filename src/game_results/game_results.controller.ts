@@ -1,39 +1,42 @@
-// src/results/results.service.ts
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../common/prisma.service';
-import { Prisma } from '@prisma/client';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Patch,
+  Delete,
+} from '@nestjs/common';
+import { GameResultsService } from './game_results.service';
+import { CreateGameResultDto } from './dto/create-game_result.dto';
+import { UpdateGameResultDto } from './dto/update-game_result.dto';
 
-@Injectable()
-export class ResultsService {
-  constructor(private prisma: PrismaService) {}
+@Controller('gameResults')
+export class GameResultsController {
+  constructor(private readonly resultService: GameResultsService) {}
 
+  @Post()
+  create(@Body() dto: CreateGameResultDto) {
+    return this.resultService.create(dto);
+  }
+
+  @Get()
   findAll() {
-    return this.prisma.gameResult.findMany({
-      include: { user: true }, // Include related user info
-    });
+    return this.resultService.findAll();
   }
 
-  findOne(id: number) {
-    return this.prisma.gameResult.findUnique({
-      where: { resultID: id },
-      include: { user: true },
-    });
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.resultService.findOne(Number(id));
   }
 
-  create(data: Prisma.GameResultCreateInput) {
-    return this.prisma.gameResult.create({ data });
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() dto: UpdateGameResultDto) {
+    return this.resultService.update(Number(id), dto);
   }
 
-  update(id: number, data: Prisma.GameResultUpdateInput) {
-    return this.prisma.gameResult.update({
-      where: { resultID: id },
-      data,
-    });
-  }
-
-  remove(id: number) {
-    return this.prisma.gameResult.delete({
-      where: { resultID: id },
-    });
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.resultService.remove(Number(id));
   }
 }

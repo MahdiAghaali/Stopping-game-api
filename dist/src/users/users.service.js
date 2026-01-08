@@ -32,6 +32,35 @@ let UsersService = class UsersService {
     remove(userID) {
         return this.prisma.user.delete({ where: { userID } });
     }
+    async initByUuid(uuid) {
+        const user = await this.prisma.user.findUnique({
+            where: { uuid },
+            include: {
+                sessions: true,
+                results: true,
+            },
+        });
+        if (user)
+            return user;
+        const count = await this.prisma.user.count();
+        const guestName = `Guest user ${count + 1}`;
+        return this.prisma.user.create({
+            data: {
+                uuid,
+                userName: guestName,
+            },
+            include: {
+                sessions: true,
+                results: true,
+            },
+        });
+    }
+    updateByUuid(uuid, data) {
+        return this.prisma.user.update({
+            where: { uuid },
+            data,
+        });
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

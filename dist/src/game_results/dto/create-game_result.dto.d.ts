@@ -1,5 +1,7 @@
 export declare class CreateGameResultDto {
-    userID: number;
+    uuid: string;
     stoppingStep: number;
     score: number;
+    sessionID: number;
+    datasetId: number;
 }

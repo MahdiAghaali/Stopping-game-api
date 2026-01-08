@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,17 +8,48 @@ datasource db {
 }
 
 model User {
-  userID    Int          @id @default(autoincrement())
-  name      String
-  email     String       @unique
-  results   GameResult[]
+  userID     Int          @id @default(autoincrement())
+  uuid       String       @unique
+  userName   String?
+  email      String?
+
+  results    GameResult[]
+  sessions   Session[]
+
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model Session {
+  sessionID         Int      @id @default(autoincrement())
+  ownerID           Int
+
+  settings          Json
+  playersData       Json
+
+  isSessionStarted  Boolean  @default(false)
+  isSessionEnded    Boolean  @default(false)
+
+  owner             User     @relation(fields: [ownerID], references: [userID])
+  results           GameResult[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model GameResult {
-  resultID    Int    @id @default(autoincrement())
-  userID      Int
-  stoppingStep Int
-  score       Int
+  resultID     Int      @id @default(autoincrement())
 
-  user        User   @relation(fields: [userID], references: [userID])
+  userID       Int
+  sessionID    Int
+  datasetId    Int
+
+  stoppingStep Int
+  score         Int
+
+  user         User     @relation(fields: [userID], references: [userID])
+  session      Session  @relation(fields: [sessionID], references: [sessionID])
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

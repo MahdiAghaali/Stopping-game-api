@@ -7,8 +7,25 @@ import { UpdateGameResultDto } from './dto/update-game_result.dto';
 export class GameResultsService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: CreateGameResultDto) {
-    return this.prisma.gameResult.create({ data });
+  async create(data: CreateGameResultDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { uuid: data.uuid },
+    });
+
+    if (!user) {
+      throw new Error(`User '${data.uuid}' not found`);
+    }
+
+    // 2. Create the result using the user's ID
+    return this.prisma.gameResult.create({
+      data: {
+        userID: user.userID,
+        sessionID: data.sessionID, // must provide a number
+        datasetId: data.datasetId,
+        stoppingStep: data.stoppingStep,
+        score: data.score,
+      },
+    });
   }
 
   findAll() {

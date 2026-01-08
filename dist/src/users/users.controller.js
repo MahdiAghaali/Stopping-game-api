@@ -17,10 +17,18 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
+const init_user_dto_1 = require("./dto/init-user.dto");
+const update_user_profile_dto_1 = require("./dto/update-user-profile.dto");
 let UsersController = class UsersController {
     usersService;
     constructor(usersService) {
         this.usersService = usersService;
+    }
+    init(dto) {
+        return this.usersService.initByUuid(dto.uuid);
+    }
+    updateByUuid(uuid, dto) {
+        return this.usersService.updateByUuid(uuid, dto);
     }
     create(dto) {
         return this.usersService.create(dto);
@@ -39,6 +47,21 @@ let UsersController = class UsersController {
     }
 };
 exports.UsersController = UsersController;
+__decorate([
+    (0, common_1.Post)('init'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [init_user_dto_1.InitUserDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "init", null);
+__decorate([
+    (0, common_1.Patch)('by-uuid/:uuid'),
+    __param(0, (0, common_1.Param)('uuid')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_user_profile_dto_1.UpdateUserProfileDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "updateByUuid", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),

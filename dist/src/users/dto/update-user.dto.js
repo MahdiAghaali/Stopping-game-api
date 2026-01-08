@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateUserDto = void 0;
 class UpdateUserDto {
-    name;
+    userName;
     email;
 }
 exports.UpdateUserDto = UpdateUserDto;

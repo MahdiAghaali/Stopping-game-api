@@ -17,8 +17,22 @@ let GameResultsService = class GameResultsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(data) {
-        return this.prisma.gameResult.create({ data });
+    async create(data) {
+        const user = await this.prisma.user.findUnique({
+            where: { uuid: data.uuid },
+        });
+        if (!user) {
+            throw new Error(`User '${data.uuid}' not found`);
+        }
+        return this.prisma.gameResult.create({
+            data: {
+                userID: user.userID,
+                sessionID: data.sessionID,
+                datasetId: data.datasetId,
+                stoppingStep: data.stoppingStep,
+                score: data.score,
+            },
+        });
     }
     findAll() {
         return this.prisma.gameResult.findMany();

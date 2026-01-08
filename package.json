@@ -24,6 +24,9 @@
     "@nestjs/core": "^11.1.9",
     "@nestjs/platform-express": "^11.1.9",
     "@prisma/client": "^6.11.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
+    "csv-parser": "^3.2.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },

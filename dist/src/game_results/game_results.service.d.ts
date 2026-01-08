@@ -4,34 +4,54 @@ import { UpdateGameResultDto } from './dto/update-game_result.dto';
 export declare class GameResultsService {
     private prisma;
     constructor(prisma: PrismaService);
-    create(data: CreateGameResultDto): import("@prisma/client").Prisma.Prisma__GameResultClient<{
+    create(data: CreateGameResultDto): Promise<{
+        createdAt: Date;
+        updatedAt: Date;
         userID: number;
+        resultID: number;
+        sessionID: number;
+        datasetId: number;
         stoppingStep: number;
         score: number;
-        resultID: number;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    }>;
     findAll(): import("@prisma/client").Prisma.PrismaPromise<{
+        createdAt: Date;
+        updatedAt: Date;
         userID: number;
+        resultID: number;
+        sessionID: number;
+        datasetId: number;
         stoppingStep: number;
         score: number;
-        resultID: number;
     }[]>;
     findOne(resultID: number): import("@prisma/client").Prisma.Prisma__GameResultClient<{
+        createdAt: Date;
+        updatedAt: Date;
         userID: number;
+        resultID: number;
+        sessionID: number;
+        datasetId: number;
         stoppingStep: number;
         score: number;
-        resultID: number;
     } | null, null, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     update(resultID: number, data: UpdateGameResultDto): import("@prisma/client").Prisma.Prisma__GameResultClient<{
+        createdAt: Date;
+        updatedAt: Date;
         userID: number;
+        resultID: number;
+        sessionID: number;
+        datasetId: number;
         stoppingStep: number;
         score: number;
-        resultID: number;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     remove(resultID: number): import("@prisma/client").Prisma.Prisma__GameResultClient<{
+        createdAt: Date;
+        updatedAt: Date;
         userID: number;
+        resultID: number;
+        sessionID: number;
+        datasetId: number;
         stoppingStep: number;
         score: number;
-        resultID: number;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
 }
