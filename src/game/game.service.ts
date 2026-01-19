@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import csv from 'csv-parser';
 
-type DatasetT = {
+export type DatasetT = {
   id: number;
   dataset: string;
   method: string;

@@ -27,8 +27,8 @@ let UsersController = class UsersController {
     init(dto) {
         return this.usersService.initByUuid(dto.uuid);
     }
-    updateByUuid(uuid, dto) {
-        return this.usersService.updateByUuid(uuid, dto);
+    updateByUuid(dto) {
+        return this.usersService.updateByUuid(dto.uuid, dto);
     }
     create(dto) {
         return this.usersService.create(dto);
@@ -55,11 +55,10 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "init", null);
 __decorate([
-    (0, common_1.Patch)('by-uuid/:uuid'),
-    __param(0, (0, common_1.Param)('uuid')),
-    __param(1, (0, common_1.Body)()),
+    (0, common_1.Patch)('by-uuid'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_user_profile_dto_1.UpdateUserProfileDto]),
+    __metadata("design:paramtypes", [update_user_profile_dto_1.UpdateUserProfileDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateByUuid", null);
 __decorate([

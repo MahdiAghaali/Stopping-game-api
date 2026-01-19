@@ -24,9 +24,9 @@ export class UsersController {
   }
 
   // 🆕 UPDATE USER BY UUID
-  @Patch('by-uuid/:uuid')
-  updateByUuid(@Param('uuid') uuid: string, @Body() dto: UpdateUserProfileDto) {
-    return this.usersService.updateByUuid(uuid, dto);
+  @Patch('by-uuid')
+  updateByUuid(@Body() dto: UpdateUserProfileDto) {
+    return this.usersService.updateByUuid(dto.uuid, dto);
   }
 
   // EXISTING CRUD

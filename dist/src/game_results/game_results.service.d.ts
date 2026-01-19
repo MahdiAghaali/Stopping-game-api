@@ -9,7 +9,7 @@ export declare class GameResultsService {
         updatedAt: Date;
         userID: number;
         resultID: number;
-        sessionID: number;
+        sessionID: number | null;
         datasetId: number;
         stoppingStep: number;
         score: number;
@@ -19,7 +19,7 @@ export declare class GameResultsService {
         updatedAt: Date;
         userID: number;
         resultID: number;
-        sessionID: number;
+        sessionID: number | null;
         datasetId: number;
         stoppingStep: number;
         score: number;
@@ -29,7 +29,7 @@ export declare class GameResultsService {
         updatedAt: Date;
         userID: number;
         resultID: number;
-        sessionID: number;
+        sessionID: number | null;
         datasetId: number;
         stoppingStep: number;
         score: number;
@@ -39,7 +39,7 @@ export declare class GameResultsService {
         updatedAt: Date;
         userID: number;
         resultID: number;
-        sessionID: number;
+        sessionID: number | null;
         datasetId: number;
         stoppingStep: number;
         score: number;
@@ -49,9 +49,20 @@ export declare class GameResultsService {
         updatedAt: Date;
         userID: number;
         resultID: number;
-        sessionID: number;
+        sessionID: number | null;
         datasetId: number;
         stoppingStep: number;
         score: number;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    private readonly registryPath;
+    private readRegistry;
+    getLeaderboard(): Promise<{
+        username: string | null;
+        userUID: string;
+        stoppingStep: number;
+        score: number;
+        sessionID: number | null;
+        datasetId: number;
+        datasetName: string;
+    }[]>;
 }

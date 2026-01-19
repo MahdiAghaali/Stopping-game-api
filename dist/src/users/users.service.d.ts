@@ -50,7 +50,7 @@ export declare class UsersService {
             updatedAt: Date;
             userID: number;
             resultID: number;
-            sessionID: number;
+            sessionID: number | null;
             datasetId: number;
             stoppingStep: number;
             score: number;

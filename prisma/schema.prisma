@@ -41,14 +41,14 @@ model GameResult {
   resultID     Int      @id @default(autoincrement())
 
   userID       Int
-  sessionID    Int
+  sessionID    Int?          // <-- make optional
   datasetId    Int
 
   stoppingStep Int
-  score         Int
+  score        Int
 
-  user         User     @relation(fields: [userID], references: [userID])
-  session      Session  @relation(fields: [sessionID], references: [sessionID])
+  user         User          @relation(fields: [userID], references: [userID])
+  session      Session?      @relation(fields: [sessionID], references: [sessionID]) // optional
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

@@ -1,4 +1,4 @@
-type DatasetT = {
+export type DatasetT = {
     id: number;
     dataset: string;
     method: string;
@@ -16,4 +16,3 @@ export declare class GameService {
     private readRegistry;
     private readCsvFile;
 }
-export {};

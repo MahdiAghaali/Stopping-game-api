@@ -9,7 +9,7 @@ export declare class GameResultsController {
         updatedAt: Date;
         userID: number;
         resultID: number;
-        sessionID: number;
+        sessionID: number | null;
         datasetId: number;
         stoppingStep: number;
         score: number;
@@ -19,17 +19,26 @@ export declare class GameResultsController {
         updatedAt: Date;
         userID: number;
         resultID: number;
-        sessionID: number;
+        sessionID: number | null;
         datasetId: number;
         stoppingStep: number;
         score: number;
+    }[]>;
+    getLeaderboard(): Promise<{
+        username: string | null;
+        userUID: string;
+        stoppingStep: number;
+        score: number;
+        sessionID: number | null;
+        datasetId: number;
+        datasetName: string;
     }[]>;
     findOne(id: string): import("@prisma/client").Prisma.Prisma__GameResultClient<{
         createdAt: Date;
         updatedAt: Date;
         userID: number;
         resultID: number;
-        sessionID: number;
+        sessionID: number | null;
         datasetId: number;
         stoppingStep: number;
         score: number;
@@ -39,7 +48,7 @@ export declare class GameResultsController {
         updatedAt: Date;
         userID: number;
         resultID: number;
-        sessionID: number;
+        sessionID: number | null;
         datasetId: number;
         stoppingStep: number;
         score: number;
@@ -49,7 +58,7 @@ export declare class GameResultsController {
         updatedAt: Date;
         userID: number;
         resultID: number;
-        sessionID: number;
+        sessionID: number | null;
         datasetId: number;
         stoppingStep: number;
         score: number;

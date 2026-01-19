@@ -12,10 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateUserProfileDto = void 0;
 const class_validator_1 = require("class-validator");
 class UpdateUserProfileDto {
+    uuid = '0';
     userName;
     email;
 }
 exports.UpdateUserProfileDto = UpdateUserProfileDto;
+__decorate([
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", String)
+], UpdateUserProfileDto.prototype, "uuid", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),

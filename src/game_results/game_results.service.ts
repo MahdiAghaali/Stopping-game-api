@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../common/prisma.service';
 import { CreateGameResultDto } from './dto/create-game_result.dto';
 import { UpdateGameResultDto } from './dto/update-game_result.dto';
+import { DatasetT } from '../game/game.service';
+import * as fs from 'fs';
+import * as path from 'path';
+import csv from 'csv-parser';
 
 @Injectable()
 export class GameResultsService {
@@ -16,14 +20,13 @@ export class GameResultsService {
       throw new Error(`User '${data.uuid}' not found`);
     }
 
-    // 2. Create the result using the user's ID
     return this.prisma.gameResult.create({
       data: {
         userID: user.userID,
-        sessionID: data.sessionID, // must provide a number
         datasetId: data.datasetId,
         stoppingStep: data.stoppingStep,
         score: data.score,
+        sessionID: data.sessionID, // <-- store null if undefined
       },
     });
   }
@@ -42,5 +45,59 @@ export class GameResultsService {
 
   remove(resultID: number) {
     return this.prisma.gameResult.delete({ where: { resultID } });
+  }
+
+  private readonly registryPath = path.join(
+    process.cwd(),
+    'src',
+    'series_registry.csv',
+  );
+
+  private readRegistry(): Promise<DatasetT[]> {
+    return new Promise((resolve, reject) => {
+      const rows: DatasetT[] = [];
+
+      fs.createReadStream(this.registryPath)
+        .pipe(csv())
+        .on('data', (data: DatasetT) => {
+          rows.push({
+            id: Number(data.id),
+            dataset: data.dataset,
+            method: data.method,
+            method_confidence_level: data.method_confidence_level,
+            method_bias: data.method_bias,
+            method_recall_target: data.method_recall_target,
+            filename: data.filename,
+            row_count: Number(data.row_count),
+            rows: undefined,
+          });
+        })
+        .on('end', () => resolve(rows))
+        .on('error', reject);
+    });
+  }
+
+  async getLeaderboard() {
+    // 1. Load CSV registry once
+    const registry = await this.readRegistry();
+
+    // 2. Load all game results with user info
+    const results = await this.prisma.gameResult.findMany({
+      include: {
+        user: true, // get username
+      },
+    });
+
+    // 3. Map datasetId → datasetName from registry
+    return results.map((r) => ({
+      username: r.user.userName, // replace ID with username
+      userUID: r.user.uuid, // replace ID with username
+      stoppingStep: r.stoppingStep,
+      score: r.score,
+      sessionID: r.sessionID ?? null,
+      datasetId: r.datasetId,
+      datasetName:
+        registry.find((ds) => ds.id === r.datasetId)?.dataset || 'Unknown',
+    }));
   }
 }

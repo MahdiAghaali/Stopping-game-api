@@ -12,7 +12,7 @@ export declare class UsersController {
             updatedAt: Date;
             userID: number;
             resultID: number;
-            sessionID: number;
+            sessionID: number | null;
             datasetId: number;
             stoppingStep: number;
             score: number;
@@ -35,7 +35,7 @@ export declare class UsersController {
         updatedAt: Date;
         userID: number;
     }>;
-    updateByUuid(uuid: string, dto: UpdateUserProfileDto): import("@prisma/client").Prisma.Prisma__UserClient<{
+    updateByUuid(dto: UpdateUserProfileDto): import("@prisma/client").Prisma.Prisma__UserClient<{
         uuid: string;
         userName: string | null;
         email: string | null;

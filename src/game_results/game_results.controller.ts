@@ -25,6 +25,11 @@ export class GameResultsController {
     return this.resultService.findAll();
   }
 
+  @Get('leaderboard')
+  async getLeaderboard() {
+    return this.resultService.getLeaderboard();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.resultService.findOne(Number(id));
