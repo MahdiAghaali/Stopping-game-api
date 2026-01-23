@@ -17,13 +17,13 @@ export type DatasetT = {
 
 @Injectable()
 export class GameService {
-  private readonly registryPath = path.join(
-    process.cwd(),
-    'src',
-    'series_registry.csv',
-  );
+  private registryPath =
+    process.env.REGISTRY ??
+    path.join(process.cwd(), 'src', 'series_registry.csv');
 
-  private readonly dataDir = path.join(process.cwd(), 'data');
+  private readonly dataDir = path.join(
+    process.env.RESULTS_DIR ?? 'data/results/',
+  );
 
   async loadFilesByIds(ids: number[]) {
     const registry = await this.readRegistry();

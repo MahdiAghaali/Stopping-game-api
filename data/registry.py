@@ -28,11 +28,13 @@ if __name__ == '__main__':
                     'method_bias': data.iloc[0]['method-bias'] if 'method-bias' in data.columns else None,
                     'method_recall_target': data.iloc[0]['method-recall_target'] if 'method-recall_target' in data.columns else None,
                     'row_count': data.shape[0],
+                    'rows': data.shape[0],
                     'n_total': data.iloc[0]['n_total'],
                     'n_incl': data.iloc[0]['n_incl'],
+                    'filename': target_file.name,
                 },
             )
 
             data.rename(columns={col: col.replace('-', '_') for col in data.columns}).to_csv(target_file, index=False)
 
-    pd.DataFrame(entries).to_csv(REGISTRY_FILE, index=False)
+        pd.DataFrame(entries).to_csv(REGISTRY_FILE, index=False)
