@@ -2,3 +2,10 @@ node_modules
 /generated/prisma
 .env
 /data
+
+package-lock.json
+*.db
+dist/
+.idea/
+
+series_registry.csv

@@ -12,12 +12,20 @@ export class GameResultsService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateGameResultDto) {
-    const user = await this.prisma.user.findUnique({
+    let user = await this.prisma.user.findUnique({
       where: { uuid: data.uuid },
     });
 
     if (!user) {
-      throw new Error(`User '${data.uuid}' not found`);
+      await this.prisma.user.create({
+        data: { uuid: data.uuid },
+      });
+      user = await this.prisma.user.findUnique({
+        where: { uuid: data.uuid },
+      });
+      if (!user) {
+        throw new Error(`User '${data.uuid}' not found`);
+      }
     }
 
     return this.prisma.gameResult.create({
@@ -47,11 +55,9 @@ export class GameResultsService {
     return this.prisma.gameResult.delete({ where: { resultID } });
   }
 
-  private readonly registryPath = path.join(
-    process.cwd(),
-    'src',
-    'series_registry.csv',
-  );
+  private readonly registryPath =
+    process.env.REGISTRY ??
+    path.join(process.cwd(), 'src', 'series_registry.csv');
 
   private readRegistry(): Promise<DatasetT[]> {
     return new Promise((resolve, reject) => {

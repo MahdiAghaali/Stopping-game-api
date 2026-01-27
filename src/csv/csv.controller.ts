@@ -7,23 +7,22 @@ import csv from 'csv-parser';
 export class CsvController {
   @Get('getRegistry')
   async readCsv() {
-    const RegistryName = 'series_registry.csv';
+    const RegistryName =
+      process.env.REGISTRY ??
+      path.join(process.cwd(), 'src', 'series_registry.csv');
     if (!RegistryName) {
       throw new BadRequestException('Query parameter "file" is required');
     }
 
-    const filePath = path.join(process.cwd(), 'src', RegistryName); // adjust directory
-
-    if (!fs.existsSync(filePath)) {
+    if (!fs.existsSync(RegistryName)) {
       throw new BadRequestException(`File not found: ${RegistryName}`);
     }
 
     return new Promise((resolve, reject) => {
       const results = [];
 
-      fs.createReadStream(filePath)
+      fs.createReadStream(RegistryName)
         .pipe(csv())
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         .on('data', (data) => results.push(data as never))
         .on('end', () => {
           resolve(results);
